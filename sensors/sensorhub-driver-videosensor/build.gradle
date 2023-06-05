@@ -7,6 +7,7 @@ dependencies {
 //    implementation project(':sensorhub-service-video')
 //    implementation project(':sensorhub-driver-videocam')
     testImplementation('junit:junit:4.13')
+    implementation 'org.bytedeco:javacv-platform:1.5.3'
 }
 
 // exclude tests requiring connection to the sensor
