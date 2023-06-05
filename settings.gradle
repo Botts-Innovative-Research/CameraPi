@@ -46,11 +46,9 @@ includeBuild gradle.oshCoreDir
 FileTree subprojects = fileTree("$rootDir/sensors").include('**/build.gradle')
 subprojects.files.each { File f ->
     File projectFolder = f.parentFile
-    if (projectFolder.name.contains("sensor")) {
-        if (projectFolder != rootDir) {
-            String projectName = ':' + projectFolder.name
-            include projectName
-            project(projectName).projectDir = projectFolder
-        }
+    if (projectFolder != rootDir) {
+        String projectName = ':' + projectFolder.name
+        include projectName
+        project(projectName).projectDir = projectFolder
     }
 }
