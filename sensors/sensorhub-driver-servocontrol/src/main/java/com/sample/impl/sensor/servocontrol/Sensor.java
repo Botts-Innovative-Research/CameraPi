@@ -9,10 +9,10 @@
  for the specific language governing rights and limitations under the License.
 
  Copyright (C) 2020-2021 Botts Innovative Research, Inc. All Rights Reserved.
-
  ******************************* END LICENSE BLOCK ***************************/
 package com.sample.impl.sensor.servocontrol;
 
+import com.pi4j.io.gpio.*;
 import org.sensorhub.api.common.SensorHubException;
 import org.sensorhub.impl.sensor.AbstractSensorModule;
 import org.slf4j.Logger;
@@ -26,9 +26,9 @@ import org.slf4j.LoggerFactory;
  * @since Feb. 6, 2020
  */
 public class Sensor extends AbstractSensorModule<Config> {
-
     private static final Logger logger = LoggerFactory.getLogger(Sensor.class);
 
+    Control control;
     Output output;
 
     Object syncTimeLock = new Object();
@@ -43,32 +43,29 @@ public class Sensor extends AbstractSensorModule<Config> {
         generateXmlID("[XML-PREFIX]", config.serialNumber);
 
         // Create and initialize output
-        output = new Output(this);
+//        output = new Output(this);
+//        addOutput(output, false);
+//        output.doInit();
 
-        addOutput(output, false);
-
-        output.doInit();
-
-        // TODO: Perform other initialization
+        // Create and initialize controls
+        control = new Control("sensor", this);
+        addControlInput(control);
+        control.doInit();
     }
 
     @Override
     public void doStart() throws SensorHubException {
 
         if (null != output) {
-
             // Allocate necessary resources and start outputs
-            output.doStart();;
+            output.doStart();
         }
-
-        // TODO: Perform other startup procedures
     }
 
     @Override
     public void doStop() throws SensorHubException {
 
         if (null != output) {
-
             output.doStop();
         }
 
