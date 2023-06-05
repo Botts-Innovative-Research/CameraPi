@@ -2,7 +2,7 @@ apply from: gradle.oshCoreDir + '/common.gradle'
 description = ''
 
 allprojects {
-  version = '0.0.0'
+  version = '1.0.0'
 }
 
 subprojects {
@@ -16,6 +16,7 @@ dependencies {
   implementation 'org.sensorhub:sensorhub-webui-core:' + oshCoreVersion
   implementation 'org.sensorhub:sensorhub-datastore-h2'
   implementation 'org.sensorhub:sensorhub-service-sweapi:' + oshCoreVersion
+  implementation project('sensorhub-driver-servocontrol')
 
 
 //  implementation project(':[storage-module-name]')

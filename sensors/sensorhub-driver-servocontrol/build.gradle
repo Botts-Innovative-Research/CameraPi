@@ -1,5 +1,5 @@
-description = 'Put your description here'
-ext.details = "Details here"
+description = 'Servo driver'
+ext.details = "Servo driver"
 version = '1.0.0'
 
 dependencies {
@@ -30,8 +30,8 @@ osgi {
 ext.pom >>= {
     developers {
         developer {
-            id 'some id'
-            name 'Your name'
+            id 'michael.elmore'
+            name 'Michael Elmore'
             organization ''
             organizationUrl ''
         }

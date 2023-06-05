@@ -11,7 +11,7 @@
  Copyright (C) 2020-2021 Botts Innovative Research, Inc. All Rights Reserved.
 
  ******************************* END LICENSE BLOCK ***************************/
-package com.sample.impl.sensor.drivername;
+package com.sample.impl.sensor.servocontrol;
 
 import net.opengis.swe.v20.*;
 import org.sensorhub.api.data.DataEvent;
