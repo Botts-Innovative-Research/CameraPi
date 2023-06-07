@@ -8,14 +8,12 @@ import org.sensorhub.api.command.CommandException;
 import org.sensorhub.impl.sensor.AbstractSensorControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vast.data.DataChoiceImpl;
 import org.vast.swe.SWEHelper;
 
 public class Control extends AbstractSensorControl<Sensor> {
     private static final Logger logger = LoggerFactory.getLogger(Output.class);
     private static final double MIN_ANGLE = 20.0;
-
-    private static final double MAX_ANGLE = 40.0;
+    private static final double MAX_ANGLE = 160.0;
     protected DataRecord commandDataStruct;
 
     protected Control(String name, Sensor parentSensor) {
@@ -51,19 +49,20 @@ public class Control extends AbstractSensorControl<Sensor> {
     protected boolean execCommand(DataBlock cmdData) throws CommandException {
         boolean commandExecuted = true;
         try {
+            // Get the value entered
             DataRecord commandData = commandDataStruct.copy();
-
             commandData.setData(cmdData);
-
             Quantity component = (Quantity) commandData.getField("Angle");
-
             double angle = component.getValue();
-            angle = (angle <= MIN_ANGLE) ? MIN_ANGLE : Math.min(angle, MAX_ANGLE);
 
+            // Clamp the value
+            angle = Math.max(MIN_ANGLE, Math.min(MAX_ANGLE, angle));
             logger.debug("Angle:" + angle);
 
+            //Tilt the servo
+            parentSensor.tiltTo(angle);
         } catch (Exception e) {
-            throw new CommandException("Failed to command the CameraSensor module: ", e);
+            throw new CommandException("Failed to command the sensor module: ", e);
         }
 
         return commandExecuted;

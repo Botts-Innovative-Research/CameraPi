@@ -1,7 +1,6 @@
 /***************************** BEGIN LICENSE BLOCK ***************************
 
  Copyright (C) 2020-2021 Nicolas Garay. All Rights Reserved.
-
  ******************************* END LICENSE BLOCK ***************************/
 package com.sample.impl.sensor.servocontrol;
 
@@ -51,18 +50,15 @@ public enum GpioEnum {
     private String name;
 
     GpioEnum(int value, String name) {
-
         this.value = value;
         this.name = name;
     }
 
     public int getValue() {
-
         return this.value;
     }
 
     public String toString() {
-
         return this.name;
     }
 }

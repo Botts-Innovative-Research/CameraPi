@@ -8,6 +8,7 @@ dependencies {
 //    implementation project(':sensorhub-driver-videocam')
     testImplementation('junit:junit:4.13')
     implementation 'com.pi4j:pi4j-core:1.2'
+    implementation 'org.bytedeco:javacv-platform:1.5.3'
 }
 
 // exclude tests requiring connection to the sensor
@@ -21,8 +22,8 @@ test {
 // add info to OSGi manifest
 osgi {
     manifest {
-        attributes ('Bundle-Vendor': 'Botts Inc')
-        attributes ('Bundle-Activator': 'com.sample.impl.sensor.servocontrol.Activator')
+        attributes('Bundle-Vendor': 'Botts Inc')
+        attributes('Bundle-Activator': 'com.sample.impl.sensor.servocontrol.Activator')
     }
 }
 

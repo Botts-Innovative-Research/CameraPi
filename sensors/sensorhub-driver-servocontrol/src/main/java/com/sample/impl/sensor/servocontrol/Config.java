@@ -41,6 +41,6 @@ public class Config extends SensorConfig {
     public String serialNumber = "sensor001";
 
     @DisplayInfo.Required
-    @DisplayInfo(label="Tilt Servo Pin", desc="The GPIO pin to control the tilt servo of the Camera Module")
+    @DisplayInfo(label="Tilt Servo Pin", desc="The GPIO pin to control the tilt servo")
     public GpioEnum tiltServoPin = GpioEnum.PIN_13;
 }

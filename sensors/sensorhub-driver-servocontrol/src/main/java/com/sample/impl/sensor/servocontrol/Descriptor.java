@@ -9,7 +9,6 @@
  for the specific language governing rights and limitations under the License.
 
  Copyright (C) 2020-2021 Botts Innovative Research, Inc. All Rights Reserved.
-
  ******************************* END LICENSE BLOCK ***************************/
 package com.sample.impl.sensor.servocontrol;
 
@@ -33,16 +32,15 @@ public class Descriptor extends JarModuleProvider implements IModuleProvider {
      * @return The class used to interact with the sensor/sensor platform.
      */
     public Class<? extends IModule<?>> getModuleClass() {
-
         return Sensor.class;
     }
 
     /**
      * Identifies the class used to configure this driver
+     *
      * @return The java class used to exposing configuration settings for the driver.
      */
     public Class<? extends ModuleConfig> getModuleConfigClass() {
-
         return Config.class;
     }
 }

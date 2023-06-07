@@ -26,11 +26,12 @@ import org.slf4j.LoggerFactory;
  * @since Feb. 6, 2020
  */
 public class Sensor extends AbstractSensorModule<Config> {
-    private static final Logger logger = LoggerFactory.getLogger(Sensor.class);
 
+    private static final Logger logger = LoggerFactory.getLogger(Sensor.class);
+    private final GpioController gpio = GpioFactory.getInstance();
+    private GpioPinDigitalOutput tiltPin;
     Control control;
     Output output;
-
     Object syncTimeLock = new Object();
 
     @Override
@@ -60,6 +61,13 @@ public class Sensor extends AbstractSensorModule<Config> {
             // Allocate necessary resources and start outputs
             output.doStart();
         }
+
+        if (config.tiltServoPin != GpioEnum.PIN_UNSET) {
+            tiltPin = gpio.provisionDigitalOutputPin(RaspiPin.getPinByAddress(config.tiltServoPin.getValue()));
+        } else {
+            tiltPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_13);
+        }
+        tiltPin.setShutdownOptions(true, PinState.LOW);
     }
 
     @Override
@@ -69,7 +77,11 @@ public class Sensor extends AbstractSensorModule<Config> {
             output.doStop();
         }
 
-        // TODO: Perform other shutdown procedures
+        if (tiltPin != null) {
+            tiltPin.setState(PinState.LOW);
+            gpio.unprovisionPin(tiltPin);
+            tiltPin = null;
+        }
     }
 
     @Override
@@ -77,5 +89,53 @@ public class Sensor extends AbstractSensorModule<Config> {
 
         // Determine if sensor is connected
         return output.isAlive();
+    }
+
+    /**
+     * Maps angle to PWM signal for SG90 Servos
+     * 20 ms (50Hz) PWM Period
+     * 1 - 2 MS Duty Cycle
+     * 1.0 ms pulse -  90.0° - maps to   0° (right)
+     * 1.5 ms pulse -   0.0° - maps to  90° (center)
+     * 2.0 ms pulse - -90.0° - maps to 180° (left)
+     *
+     * Using busy wait as Java Sleep Timer for threads calls exceed
+     * desired sleep time due to invocation time.  In addition,
+     * granularity of sleep is bound by thread scheduler's interrupt
+     * period (1ms in Linux and approx 10-15 ms in Windows).
+     *
+     * High level of pulse is calculated between 0.5 ms and 2.5ms.
+     *
+     * @param servoPin The pin to operate on
+     * @param angle The angle of rotation in range [0 - 180]
+     */
+    private void rotateTo(GpioPinDigitalOutput servoPin, double angle) {
+
+        logger.info("pin: " + servoPin.getName() + " angle: " + angle);
+
+        long pulseWidthMicros = Math.round(angle * 11) + 500;
+
+        logger.info("pulseWidth: " + pulseWidthMicros);
+
+        for (int i = 0; i <= 15; ++i) {
+
+            servoPin.setState(PinState.HIGH);
+
+            long start = System.nanoTime();
+            while (System.nanoTime() - start < pulseWidthMicros * 1000) ;
+
+            servoPin.setState(PinState.LOW);
+
+            start = System.currentTimeMillis();
+            while (System.currentTimeMillis() - start < (20 - pulseWidthMicros / 1000)) ;
+        }
+    }
+
+    /**
+     * Rotates the tilt servo to prescribed angle
+     * @param angle angle to turn to
+     */
+    public void tiltTo(double angle) {
+        rotateTo(tiltPin, angle);
     }
 }
