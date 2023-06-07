@@ -12,8 +12,8 @@ import org.vast.swe.SWEHelper;
 
 public class Control extends AbstractSensorControl<Sensor> {
     private static final Logger logger = LoggerFactory.getLogger(Output.class);
-    private static final double MIN_ANGLE = 20.0;
-    private static final double MAX_ANGLE = 160.0;
+    private static final double MIN_ANGLE = 0.0;
+    private static final double MAX_ANGLE = 140.0;
     protected DataRecord commandDataStruct;
 
     protected Control(String name, Sensor parentSensor) {
