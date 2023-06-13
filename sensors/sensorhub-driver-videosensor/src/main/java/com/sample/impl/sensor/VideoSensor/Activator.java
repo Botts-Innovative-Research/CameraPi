@@ -1,4 +1,4 @@
-package com.sample.impl.sensor.drivername;
+package com.sample.impl.sensor.VideoSensor;
 
 import org.sensorhub.utils.OshBundleActivator;
 

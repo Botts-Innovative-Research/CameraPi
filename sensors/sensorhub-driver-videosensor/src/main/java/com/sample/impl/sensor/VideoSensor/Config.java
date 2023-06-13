@@ -11,10 +11,14 @@
  Copyright (C) 2020-2021 Botts Innovative Research, Inc. All Rights Reserved.
 
 ******************************* END LICENSE BLOCK ***************************/
-package com.sample.impl.sensor.drivername;
+package com.sample.impl.sensor.VideoSensor;
 
 import org.sensorhub.api.config.DisplayInfo;
 import org.sensorhub.api.sensor.SensorConfig;
+
+
+
+
 
 /**
  * Configuration settings for the [NAME] driver exposed via the OpenSensorHub Admin panel.
@@ -31,12 +35,18 @@ import org.sensorhub.api.sensor.SensorConfig;
  * @author Nick Garay
  * @since Feb. 6, 2020
  */
+
 public class Config extends SensorConfig {
 
     /**
      * The unique identifier for the configured sensor (or sensor platform).
      */
     @DisplayInfo.Required
-    @DisplayInfo(desc="Serial number or unique identifier")
-    public String serialNumber = "sensor001";
+    @DisplayInfo(desc="Camera Serial number")
+    public String serialNumber = "YBNVL04";
+
+    @DisplayInfo(label = "Video Camera Parameters", desc = "Parameters for camera configuration")
+    public VideoResolution videoResolution= new VideoResolution();
+
 }
+

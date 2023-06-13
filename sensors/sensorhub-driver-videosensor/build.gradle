@@ -1,11 +1,11 @@
-description = 'Put your description here'
-ext.details = "Details here"
+description = 'CameraPi Video Sensor'
+ext.details = "Video Sensor for CameraPi"
 version = '1.0.0'
 
 dependencies {
     implementation 'org.sensorhub:sensorhub-core:' + oshCoreVersion
-//    implementation project(':sensorhub-service-video')
-//    implementation project(':sensorhub-driver-videocam')
+    //implementation project(':sensorhub-service-video')
+    implementation project(':sensorhub-driver-videocam')
     testImplementation('junit:junit:4.13')
     implementation 'org.bytedeco:javacv-platform:1.5.3'
 }
@@ -22,7 +22,7 @@ test {
 osgi {
     manifest {
         attributes ('Bundle-Vendor': 'Botts Inc')
-        attributes ('Bundle-Activator': 'com.sample.impl.sensor.drivername.Activator')
+        attributes ('Bundle-Activator': 'com.sample.impl.sensor.VideoSensor.Activator')
     }
 }
 
@@ -30,10 +30,10 @@ osgi {
 ext.pom >>= {
     developers {
         developer {
-            id 'some id'
-            name 'Your name'
-            organization ''
-            organizationUrl ''
+            id 'Kalyn'
+            name 'KalynStricklin'
+            organization 'Botts Innovative Research'
+            organizationUrl 'botts-inc.com'
         }
     }
 }

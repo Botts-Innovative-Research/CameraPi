@@ -11,7 +11,7 @@
  Copyright (C) 2020-2021 Botts Innovative Research, Inc. All Rights Reserved.
 
  ******************************* END LICENSE BLOCK ***************************/
-package com.sample.impl.sensor.drivername;
+package com.sample.impl.sensor.VideoSensor;
 
 import org.sensorhub.api.module.IModule;
 import org.sensorhub.api.module.IModuleProvider;
@@ -32,7 +32,7 @@ public class Descriptor extends JarModuleProvider implements IModuleProvider {
      *
      * @return The class used to interact with the sensor/sensor platform.
      */
-    public Class<? extends IModule<?>> getModuleClass() {
+    public Class< ? extends IModule<?>> getModuleClass() {
 
         return Sensor.class;
     }
