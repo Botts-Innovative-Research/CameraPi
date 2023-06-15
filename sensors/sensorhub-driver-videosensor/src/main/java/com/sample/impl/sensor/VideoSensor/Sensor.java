@@ -18,7 +18,6 @@ import org.sensorhub.api.sensor.SensorException;
 import org.sensorhub.impl.sensor.AbstractSensorModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vast.sensorML.SMLHelper;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -29,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Nick Garay
  * @since Feb. 6, 2020
  */
-public class Sensor extends AbstractSensorModule<Config>{
+public class Sensor extends AbstractSensorModule<Config> {
 
     private static final Logger logger = LoggerFactory.getLogger(Sensor.class);
     private AtomicBoolean isConnected = new AtomicBoolean(false);
@@ -43,16 +42,15 @@ public class Sensor extends AbstractSensorModule<Config>{
         logger.debug("Initializing");
 
         // Generate identifiers
-        generateUniqueID("urn:osh:sensor:videoSensor:", config.serialNumber);
+        generateUniqueID("urn:osh:sensor:VideoSensor:", config.serialNumber);
         generateXmlID("VIDEO_SENSOR", config.serialNumber);
 
         // Create and initialize output
-        output= new Output(this);
+        output = new Output(this);
 
         try {
-
-            addOutput(output, false);
             output.init();
+            addOutput(output, false);
 
         } catch (SensorException e) {
 
@@ -65,25 +63,10 @@ public class Sensor extends AbstractSensorModule<Config>{
 
     @Override
     public boolean isConnected() {
-        return output.isAlive();
+
+        return isConnected.get();
     }
 
-    protected void updateSensorDescription() {
-
-        synchronized (sensorDescLock) {
-
-            super.updateSensorDescription();
-
-            if (!sensorDescription.isSetDescription()) {
-
-                sensorDescription.setDescription("HD Camera");
-
-                SMLHelper helper = new SMLHelper(sensorDescription);
-
-                helper.addSerialNumber(config.serialNumber);
-            }
-        }
-    }
 
     @Override
     public void doStart() throws SensorHubException {
@@ -92,10 +75,10 @@ public class Sensor extends AbstractSensorModule<Config>{
         super.doStart();
 
         if (null != output) {
-            try{
+            try {
                 output.start();
-            } catch(SensorException e){
-                logger.error("Failed to start {} due to { } ", output.getName(),e);
+            } catch (SensorException e) {
+                logger.error("Failed to start {} due to { } ", output.getName(), e);
             }
         }
 
@@ -116,3 +99,4 @@ public class Sensor extends AbstractSensorModule<Config>{
         logger.debug("Stopped");
     }
 }
+

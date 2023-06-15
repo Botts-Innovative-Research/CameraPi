@@ -48,8 +48,8 @@ public class Output extends AbstractSensorOutput<Sensor> implements Runnable {
     public Output(Sensor parentSensor) {
 
         super(SENSOR_OUTPUT_NAME, parentSensor);
-        //workerThread = new Thread(this, this.getClass().getSimpleName()+"-Worker-"+ parentSensor.getConfiguration().serialNumber);
-        //logger.debug("{} thread created...", workerThread.getName());
+        workerThread = new Thread(this, this.getClass().getSimpleName()+"-Worker-"+ parentSensor.getConfiguration().serialNumber);
+        logger.debug("{} thread created...", workerThread.getName());
     }
 
     protected void init() throws SensorException {
@@ -157,7 +157,7 @@ public class Output extends AbstractSensorOutput<Sensor> implements Runnable {
 
     @Override
     public DataComponent getRecordDescription() {
-        return null;
+        return dataStruct;
     }
     @Override
     public DataEncoding getRecommendedEncoding() {
