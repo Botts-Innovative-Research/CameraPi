@@ -6,3 +6,6 @@
 	path = include/osh-addons
 	url = https://github.com/opensensorhub/osh-addons.git
 	branch = v2
+[submodule "osh-android"]
+	path = osh-android
+	url = https://github.com/Botts-Innovative-Research/osh-android.git

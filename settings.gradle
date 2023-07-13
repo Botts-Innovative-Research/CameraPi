@@ -1,4 +1,4 @@
-rootProject.name = 'osh-node-VideoSensor'
+rootProject.name = 'onvif-pager'
 def includeDir = "$rootDir/include"
 def sensorDir = "$includeDir/osh-addons/sensors"
 def persistenceDir = "$includeDir/osh-addons/persistence"
@@ -8,6 +8,7 @@ def serviceDir = "$includeDir/osh-addons/services"
 // osh-core
 gradle.ext.oshCoreDir = "$includeDir/osh-core"
 includeBuild gradle.oshCoreDir
+
 
 // osh-storage
 //include '[storage-module-name]'
@@ -39,25 +40,31 @@ project(':sensorhub-service-video').projectDir = "$serviceDir/sensorhub-service-
 include 'sensorhub-driver-videocam'
 project(':sensorhub-driver-videocam').projectDir = "$sensorDir/video/sensorhub-driver-videocam" as File
 
-//include 'sensorhub-driver-onvif'
-//project(':sensorhub-driver-onvif').projectDir = "$sensorDir/video/sensorhub-driver-onvif" as File
-//// Project modules
-//include 'sensorhub-driver-rtpcam'
-//project(':sensorhub-driver-rtpcam').projectDir = "$sensorDir/video/sensorhub-driver-rtpcam" as File
+include 'sensorhub-driver-onvif'
+project(':sensorhub-driver-onvif').projectDir = "$sensorDir/video/sensorhub-driver-onvif" as File
 
+include 'sensorhub-driver-rtpcam'
+project(':sensorhub-driver-rtpcam').projectDir = "$sensorDir/video/sensorhub-driver-rtpcam" as File
+
+include 'sensorhub-driver-pagerOutput'
+project(':sensorhub-driver-pagerOutput').projectDir = "$sensorDir/sensors/sensorhub-driver-pagerOutput" as File
+
+
+// Project modules
 
 // Include all folders with build.gradle as subprojects
 
 FileTree subprojects = fileTree("$rootDir/sensors").include('**/build.gradle')
 subprojects.files.each { File f ->
-File projectFolder = f.parentFile
-if(!projectFolder.name.contains("template")){
+    File projectFolder = f.parentFile
+    if (!projectFolder.name.contains("template")){
         if (projectFolder != rootDir) {
-
             String projectName = ':' + projectFolder.name
             include projectName
             project(projectName).projectDir = projectFolder
         }
     }
-
 }
+
+//include 'test'
+//project(':test').projectDir = "$includeDir/osh-addons/test" as File
